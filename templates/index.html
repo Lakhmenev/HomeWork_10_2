@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список кандидатов</title>
+
+</head>
+<body>
+   <h1>Список всех кандидатов</h1>
+    {% for person in candidates %}
+        <a href=/person/{{person['id']}}>
+            <h3>{{ person['name'] }}</h3>
+        </a>
+    <pre>
+    Позиция кандидата - {{ person['position'] }}
+    Навыки: {{ person['skills'] }}
+    </pre>
+    {% endfor %}
+   <hr>
+        <h2>Фильтация по навыкам (выберите необходимый навык)</h2>
+    <pre>
+    {% for skill in list_skill %}
+   <a href=/skill/{{skill}}>
+ {{skill}} </a>
+    {% endfor %}
+    </pre>
+</body>
+</html>
