@@ -2,7 +2,6 @@ from flask import Flask, render_template
 import os
 import json
 
-
 app = Flask(__name__)
 
 
@@ -11,9 +10,7 @@ def page_index():
     # Формируем список скилов
     list_skill = []
     for _ in list_candidates:
-        list_skill += (_['skills'].lower().split(','))
-    # Убираем лишние пробелы
-    list_skill = [x.strip() for x in list_skill]
+        list_skill += create_list_skill(_['skills'])
     # Делаем список скилов уникальным
     list_skill = list(set(list_skill))
     # Сортируем скилы  при передаче
@@ -30,11 +27,22 @@ def candidate(person_id):
 def skill(x):
     person = []
     for _ in list_candidates:
-        list_skill = _['skills'].lower().split(',')
-        list_skill = [x.strip() for x in list_skill]
+        list_skill = create_list_skill(_['skills'])
         if x in list_skill:
             person.append(_)
     return render_template('skill.html', candidates=person)
+
+
+def create_list_skill(skill_str):
+    """
+    Функция получаюет строку элементов  разделенных запятыми и возвращаеи список в нижнем регистре и
+    очищенные от пробелов элементы списка
+    :param skill_str:
+    :return: список list_skill
+    """
+    list_skill = skill_str.lower().split(',')
+    list_skill = [x.strip() for x in list_skill]
+    return list_skill
 
 
 if __name__ == '__main__':
@@ -45,7 +53,6 @@ if __name__ == '__main__':
     else:
         print('Увы, но файл не найден!!!')
         quit()
-
 
     # Активация  режиам отладки  для  автоперезапуска сервера  при  изменении кода
     app.debug = True
