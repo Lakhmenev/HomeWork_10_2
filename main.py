@@ -30,7 +30,9 @@ def candidate(person_id):
 def skill(x):
     person = []
     for _ in list_candidates:
-        if x in _['skills'].lower():
+        list_skill = _['skills'].lower().split(',')
+        list_skill = [x.strip() for x in list_skill]
+        if x in list_skill:
             person.append(_)
     return render_template('skill.html', candidates=person)
 
@@ -40,10 +42,10 @@ if __name__ == '__main__':
     if os.path.isfile('candidates.json'):
         with open('candidates.json', 'r', encoding='utf8') as json_file:
             list_candidates = json.load(json_file)
-            # print(list_candidates)
     else:
         print('Увы, но файл не найден!!!')
         quit()
+
 
     # Активация  режиам отладки  для  автоперезапуска сервера  при  изменении кода
     app.debug = True
